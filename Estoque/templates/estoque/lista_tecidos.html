@@ -1,0 +1,38 @@
+{% extends 'estoque/base.html' %}
+{% block title %}Lista de Tecidos{% endblock %}
+{% block content %}
+    <title>Lista de Tecidos</title>
+   
+<body >    <h1 class="mb-4">Lista de Tecidos</h1>
+    
+    
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Cor</th>
+                <th>Metragem</th>
+                <th>Preço</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for tecido in tecidos %}
+            <tr>
+                <td>{{ tecido.nome }}</td>
+                <td>{{ tecido.cor }}</td>
+                <td>{{ tecido.metragem }}</td>
+                <td>R$ {{ tecido.preco }}</td>
+                <td>
+                    <a href="{% url 'editar_tecido' tecido.id %}" class="btn btn-warning btn-sm">Editar</a>
+                    <a href="{% url 'deletar_tecido' tecido.id %}" class="btn btn-danger btn-sm">Deletar</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="5">Nenhum tecido cadastrado.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
+{% endblock %}

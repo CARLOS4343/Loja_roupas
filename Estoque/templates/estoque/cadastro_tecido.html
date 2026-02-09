@@ -1,0 +1,104 @@
+{% extends 'estoque/base.html' %}
+
+{% block title %}Cadastrar Tecido{% endblock %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+    <!-- Título -->
+    <div class="mb-4">
+        <h1 class="fw-bold">🧵 Cadastrar Tecido</h1>
+        <p class="text-muted">Informe os dados do tecido para adicioná-lo ao estoque.</p>
+    </div>
+
+    <div class="row">
+
+        <!-- Formulário -->
+        <div class="col-lg-5">
+            <div class="card shadow-sm border-0">
+                <div class="card-body">
+                    <h5 class="mb-3">📋 Dados do Tecido</h5>
+
+                    <form method="POST">
+                        {% csrf_token %}
+
+                        <div class="mb-3">
+                            <label class="form-label">Nome</label>
+                            <input type="text" name="nome" class="form-control" placeholder="Ex: Algodão" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Metragem (m)</label>
+                            <input type="number" step="0.01" name="metragem" class="form-control" placeholder="Ex: 12.50" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Preço (R$)</label>
+                            <input type="number" step="0.01" name="preco" class="form-control" placeholder="Ex: 29.90" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Cor</label>
+                            <input type="text" name="cor" class="form-control" placeholder="Ex: Azul" required>
+                        </div>
+
+                        <div class="d-flex gap-2">
+                            <button type="submit" class="btn btn-success">
+                                💾 Salvar
+                            </button>
+
+                            <a href="{% url 'lista_tecidos' %}" class="btn btn-secondary">
+                                ↩ Voltar
+                            </a>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Lista de tecidos -->
+        <div class="col-lg-7 mt-4 mt-lg-0">
+            <div class="card shadow-sm border-0">
+                <div class="card-body">
+                    <h5 class="mb-3">📦 Tecidos Cadastrados</h5>
+
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Nome</th>
+                                    <th>Cor</th>
+                                    <th>Metragem</th>
+                                    <th>Preço</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for tecido in tecidos %}
+                                <tr>
+                                    <td>{{ tecido.nome }}</td>
+                                    <td>{{ tecido.cor }}</td>
+                                    <td>{{ tecido.metragem }} m</td>
+                                    <td>R$ {{ tecido.preco }}</td>
+                                </tr>
+                                {% empty %}
+                                <tr>
+                                    <td colspan="4" class="text-center text-muted">
+                                        Nenhum tecido cadastrado.
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,101 @@
+{% extends 'estoque/base.html' %}
+
+{% block content %}
+<h1 class="mb-4">✏️ Editar Encomenda</h1>
+
+<div class="card shadow-sm">
+    <div class="card-body">
+        <form method="POST">
+            {% csrf_token %}
+
+            <div class="row">
+                <!-- Cliente -->
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Cliente</label>
+                    <input type="text"
+                           name="nomeCliente"
+                           class="form-control"
+                           value="{{ encomenda.nomeCliente }}"
+                           required>
+                </div>
+
+                <!-- Modelo -->
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Modelo</label>
+                    <input type="text"
+                           name="modelo"
+                           class="form-control"
+                           value="{{ encomenda.modelo }}"
+                           required>
+                </div>
+            </div>
+
+            <div class="row">
+                <!-- Tecido -->
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Tecido</label>
+                    <input type="text"
+                           name="tecidoEscolhido"
+                           class="form-control"
+                           value="{{ encomenda.tecidoEscolhido }}"
+                           required>
+                </div>
+
+                <!-- Cor -->
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Cor</label>
+                    <input type="text"
+                           name="corEscolhida"
+                           class="form-control"
+                           value="{{ encomenda.corEscolhida }}"
+                           required>
+                </div>
+            </div>
+
+            <div class="row">
+                <!-- Metragem -->
+                <div class="col-md-4 mb-3">
+                    <label class="form-label">Metragem (m)</label>
+                    <input type="number"
+                           step="0.01"
+                           name="metragem"
+                           class="form-control"
+                           value="{{ encomenda.metragem }}"
+                           required>
+                </div>
+
+                <!-- Preço -->
+                <div class="col-md-4 mb-3">
+                    <label class="form-label">Preço (R$)</label>
+                    <input type="number"
+                           step="0.01"
+                           name="price"
+                           class="form-control"
+                           value="{{ encomenda.price }}"
+                           required>
+                </div>
+            </div>
+
+            <!-- Descrição -->
+            <div class="mb-3">
+                <label class="form-label">Descrição</label>
+                <textarea name="descricao"
+                          class="form-control"
+                          rows="4"
+                          placeholder="Detalhes, observações ou ajustes da encomenda...">{{ encomenda.descricao }}</textarea>
+            </div>
+
+            <!-- Ações -->
+            <div class="d-flex justify-content-between">
+                <a href="{% url 'listar_encomendas' %}" class="btn btn-secondary">
+                    ⬅ Voltar
+                </a>
+
+                <button type="submit" class="btn btn-primary">
+                    💾 Salvar Alterações
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

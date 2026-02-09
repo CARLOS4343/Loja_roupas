@@ -1,0 +1,85 @@
+{% extends 'estoque/base.html' %}
+
+{% block content %}
+<h1 class="mb-4">📦 Lista de Encomendas</h1>
+
+<div class="table-responsive">
+    <table class="table table-hover align-middle shadow-sm">
+        <thead class="table-dark">
+            <tr>
+                <th>Cliente</th>
+                <th>Modelo</th>
+                <th>Tecido</th>
+                <th>Cor</th>
+                <th>Metragem</th>
+                <th>Preço</th>
+                <th>Descrição</th>
+                <th class="text-center">Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for encomenda in encomendas %}
+            <tr>
+                <td>{{ encomenda.nomeCliente }}</td>
+                <td>{{ encomenda.modelo }}</td>
+                <td>{{ encomenda.tecidoEscolhido }}</td>
+                <td>
+                    <span class="badge bg-secondary">
+                        {{ encomenda.corEscolhida }}
+                    </span>
+                </td>
+                <td>{{ encomenda.metragem }} m</td>
+                <td><strong>R$ {{ encomenda.price }}</strong></td>
+
+                <!-- Descrição -->
+                <td style="max-width: 250px;">
+                    {% if encomenda.descricao %}
+                        <small class="text-muted">
+                            {{ encomenda.descricao|linebreaksbr }}
+                        </small>
+                    {% else %}
+                        <span class="text-muted fst-italic">Sem descrição</span>
+                    {% endif %}
+                </td>
+                <td>
+                {% if encomenda.status == 'ABERTA' %}
+                    <span class="badge bg-warning text-dark">Aberta</span>
+                {% else %}
+                    <span class="badge bg-success">Concluída</span>
+                {% endif %}
+            </td>
+                        {% if encomenda.status == 'ABERTA' %}
+            <a href="{% url 'concluir_encomenda' encomenda.id %}"
+            class="btn btn-outline-success btn-sm"
+            onclick="return confirm('Marcar esta encomenda como concluída?');">
+            ✔
+            </a>
+            {% endif %}
+
+
+
+                <!-- Ações -->
+                <td class="text-center">
+                    <a href="{% url 'editar_encomenda' encomenda.id %}"
+                       class="btn btn-outline-primary btn-sm me-1">
+                        ✏️
+                    </a>
+
+                    <a href="{% url 'deletar_encomenda' encomenda.id %}"
+                       class="btn btn-outline-danger btn-sm"
+                       onclick="return confirm('Tem certeza que deseja deletar esta encomenda?');">
+                        🗑️
+                    </a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="8" class="text-center text-muted py-4">
+                    Nenhuma encomenda registrada.
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

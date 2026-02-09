@@ -1,0 +1,95 @@
+{% extends 'estoque/base.html' %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+    <!-- Título -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="fw-bold">📊 Dashboard</h1>
+    </div>
+
+    <!-- Cards de resumo -->
+    <div class="row g-4">
+
+        <!-- Tecidos -->
+        <div class="col-md-4">
+            <div class="card text-center shadow-sm border-0 h-100">
+                <div class="card-body">
+                    <h6 class="text-muted">Tecidos</h6>
+                    <p class="display-5 fw-semibold">{{ total_tecidos }}</p>
+                    <a href="{% url 'lista_tecidos' %}" class="btn btn-outline-primary btn-sm">
+                        Ver Tecidos
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Encomendas -->
+        <div class="col-md-4">
+            <div class="card text-center shadow-sm border-0 h-100">
+                <div class="card-body">
+                    <h6 class="text-muted">Encomendas</h6>
+                    <p class="display-5 fw-semibold">{{ total_encomendas }}</p>
+                    <a href="{% url 'listar_encomendas' %}" class="btn btn-outline-success btn-sm">
+                        Ver Encomendas
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Valor em Estoque -->
+        <div class="col-md-4">
+            <div class="card text-center shadow-sm border-0 h-100">
+                <div class="card-body">
+                    <h6 class="text-muted">Valor em Estoque</h6>
+                    <p class="display-6 fw-semibold text-success">
+                        R$ {{ valor_total_estoque }}
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-center shadow-sm border-0 h-100">
+                <div class="card-body">
+                    <h6 class="text-muted">Valor De Encomendas</h6>
+                    <p class="display-6 fw-semibold text-success">
+                        R$ {{ valor_total_encomendas }}
+                    </p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+    <!-- Ações rápidas -->
+    <div class="card shadow-sm border-0 mt-5">
+        <div class="card-body">
+            <h5 class="mb-3">⚡ Ações rápidas</h5>
+
+            <div class="d-flex flex-wrap gap-2">
+                <a href="{% url 'cadastro_tecido' %}" class="btn btn-primary">
+                    ➕ Cadastrar Tecido
+                </a>
+
+                <a href="{% url 'lista_tecidos' %}" class="btn btn-secondary">
+                    📋 Listar Tecidos
+                </a>
+
+                <a href="{% url 'registrar_encomenda' %}" class="btn btn-success">
+                    📝 Registrar Encomenda
+                </a>
+
+                <a href="{% url 'listar_encomendas' %}" class="btn btn-info text-white">
+                    📦 Listar Encomendas
+                </a>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,128 @@
+{% extends 'estoque/base.html' %}
+
+{% block title %}Registrar Encomenda{% endblock %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+    <!-- Título -->
+    <div class="mb-4">
+        <h1 class="fw-bold">📝 Registrar Encomenda</h1>
+        <p class="text-muted">
+            Preencha os dados da encomenda realizada pelo cliente.
+        </p>
+    </div>
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-6">
+
+            <div class="card shadow-sm border-0">
+                <div class="card-body">
+
+                    <h5 class="mb-3">📋 Dados da Encomenda</h5>
+
+                    <form method="POST">
+                        {% csrf_token %}
+
+                        <div class="mb-3">
+                            <label class="form-label">Nome do Cliente</label>
+                            <input
+                                type="text"
+                                name="nomeCliente"
+                                class="form-control"
+                                placeholder="Ex: Maria Silva"
+                                required
+                            >
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Modelo</label>
+                            <input
+                                type="text"
+                                name="modelo"
+                                class="form-control"
+                                placeholder="Ex: Vestido Longo"
+                                required
+                            >
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Tecido Escolhido</label>
+                            <input
+                                type="text"
+                                name="tecidoEscolhido"
+                                class="form-control"
+                                placeholder="Ex: Algodão"
+                                required
+                            >
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Cor Escolhida</label>
+                            <input
+                                type="text"
+                                name="corEscolhida"
+                                class="form-control"
+                                placeholder="Ex: Azul"
+                                required
+                            >
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Metragem (m)</label>
+                            <input
+                                type="number"
+                                step="0.01"
+                                name="metragem"
+                                class="form-control"
+                                placeholder="Ex: 2.50"
+                                required
+                            >
+
+                            <div class="mb-3">
+    <label class="form-label">Descrição</label>
+    <textarea
+        name="descricao"
+        class="form-control"
+        rows="3"
+        placeholder="Detalhes da encomenda, observações, ajustes especiais..."></textarea>
+</div>
+
+                        </div>
+                          <div class="mb-3">
+                            <label class="form-label">Preço </label>
+                            <input
+                                type="number"
+                                step="0.01"
+                                name="price"
+                                class="form-control"
+                                placeholder="Ex: R$ 150.00"
+                                required
+                            >
+                        </div>
+
+
+                        <div class="d-flex gap-2">
+                            <button type="submit" class="btn btn-success">
+                                💾 Registrar
+                            </button>
+
+                            <a href="{% url 'listar_encomendas' %}" class="btn btn-secondary">
+                                ↩ Voltar
+                            </a>
+                        </div>
+
+                    </form>
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
