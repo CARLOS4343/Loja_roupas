@@ -25,7 +25,13 @@ SECRET_KEY = 'django-insecure-vuuj(czw66o8tdj9x-4oe$i%kdr$(^wm0%2+5qi%xwjbu^bf(3
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = [ 'loja-roupas-pgzf.onrender.com',
+    'localhost',
+    '127.0.0.1',]
+CSRF_TRUSTED_ORIGINS = [
+    'https://loja-roupas-pgzf.onrender.com'
+]
+
 
 
 # Application definition
