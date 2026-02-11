@@ -42,9 +42,24 @@ def cadastro_tecido(request):
     tecidos = Tecido.objects.all()
     return render(request, 'estoque/cadastro_tecido.html', {'tecidos': tecidos})
 
+
 def lista_tecidos(request):
+    nome = request.GET.get('nome')
+    cor = request.GET.get('cor')
+
     tecidos = Tecido.objects.all()
-    return render(request, 'estoque/lista_tecidos.html', {'tecidos': tecidos})
+
+    if nome:
+        tecidos = tecidos.filter(nome__icontains=nome)
+
+    if cor:
+        tecidos = tecidos.filter(cor__icontains=cor)
+
+    context = {
+        'tecidos': tecidos
+    }
+
+    return render(request, 'estoque/lista_tecidos.html', context)
 
 def editar_tecido(request, tecido_id):
     tecido = Tecido.objects.get(id=tecido_id)

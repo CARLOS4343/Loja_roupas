@@ -4,7 +4,36 @@
     <title>Lista de Tecidos</title>
    
 <body >    <h1 class="mb-4">Lista de Tecidos</h1>
-    
+    <form method="GET" class="row g-3 mb-4">
+
+    <div class="col-md-4">
+        <input type="text" 
+               name="nome" 
+               class="form-control" 
+               placeholder="Buscar por nome"
+               value="{{ request.GET.nome }}">
+    </div>
+
+    <div class="col-md-4">
+        <input type="text" 
+               name="cor" 
+               class="form-control" 
+               placeholder="Buscar por cor"
+               value="{{ request.GET.cor }}">
+    </div>
+
+    <div class="col-md-4">
+        <button type="submit" class="btn btn-primary">
+            Buscar
+        </button>
+
+        <a href="{% url 'lista_tecidos' %}" class="btn btn-secondary">
+            Limpar
+        </a>
+    </div>
+
+</form>
+
     
     <table class="table table-striped">
         <thead>
