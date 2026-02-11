@@ -1,49 +1,53 @@
 {% extends 'estoque/base.html' %}
+
 {% block title %}Dashboard{% endblock %}
 
 {% block content %}
-<div class="container-fluid px-3">
+
+<div class="container mt-4">
 
     <!-- Título -->
-    <div class="text-center mb-4">
-        <h2 class="fw-bold">📊 Dashboard</h2>
-        <p class="text-muted mb-0">Visão geral da loja</p>
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="fw-bold">📊 Dashboard</h1>
     </div>
 
-    <!-- Cards -->
-    <div class="row g-3">
+    <!-- Cards de resumo -->
+    <div class="row g-4">
 
-        <div class="col-12 col-md-4">
-            <div class="card shadow-sm text-center h-100">
+        <!-- Tecidos -->
+        <div class="col-md-4">
+            <div class="card text-center shadow-sm border-0 h-100">
                 <div class="card-body">
                     <h6 class="text-muted">Tecidos</h6>
-                    <div class="display-5 fw-bold">{{ total_tecidos }}</div>
-                    <a href="{% url 'lista_tecidos' %}" class="btn btn-outline-primary w-100 mt-3">
+                    <p class="display-5 fw-semibold">{{ total_tecidos }}</p>
+                    <a href="{% url 'lista_tecidos' %}" class="btn btn-outline-primary btn-sm">
                         Ver Tecidos
                     </a>
                 </div>
             </div>
         </div>
 
-        <div class="col-12 col-md-4">
-            <div class="card shadow-sm text-center h-100">
+        <!-- Encomendas -->
+        <div class="col-md-4">
+            <div class="card text-center shadow-sm border-0 h-100">
                 <div class="card-body">
                     <h6 class="text-muted">Encomendas</h6>
-                    <div class="display-5 fw-bold">{{ total_encomendas }}</div>
-                    <a href="{% url 'listar_encomendas' %}" class="btn btn-outline-success w-100 mt-3">
+                    <p class="display-5 fw-semibold">{{ total_encomendas }}</p>
+                    <a href="{% url 'listar_encomendas' %}" class="btn btn-outline-success btn-sm">
                         Ver Encomendas
                     </a>
                 </div>
             </div>
         </div>
 
-        <div class="col-12 col-md-4">
-            <div class="card shadow-sm text-center h-100">
+        <!-- Valor em Estoque -->
+        <div class="col-md-4">
+            <div class="card text-center shadow-sm border-0 h-100">
                 <div class="card-body">
                     <h6 class="text-muted">Valor em Estoque</h6>
-                    <div class="display-6 fw-bold text-success">
+                    <p class="display-6 fw-semibold text-success">
                         R$ {{ valor_total_estoque }}
-                    </div>
+                    </p>
                 </div>
             </div>
         </div>
@@ -51,24 +55,30 @@
     </div>
 
     <!-- Ações rápidas -->
-    <div class="mt-4">
-        <h6 class="text-muted mb-2">⚡ Ações rápidas</h6>
+    <div class="card shadow-sm border-0 mt-5">
+        <div class="card-body">
+            <h5 class="mb-3">⚡ Ações rápidas</h5>
 
-        <div class="d-grid gap-2">
-            <a href="{% url 'cadastro_tecido' %}" class="btn btn-primary btn-lg">
-                ➕ Cadastrar Tecido
-            </a>
-            <a href="{% url 'registrar_encomenda' %}" class="btn btn-success btn-lg">
-                🧾 Nova Encomenda
-            </a>
-            <a href="{% url 'lista_tecidos' %}" class="btn btn-outline-secondary">
-                📦 Listar Tecidos
-            </a>
-            <a href="{% url 'listar_encomendas' %}" class="btn btn-outline-info">
-                📋 Listar Encomendas
-            </a>
+            <div class="d-flex flex-wrap gap-2">
+                <a href="{% url 'cadastro_tecido' %}" class="btn btn-primary">
+                    ➕ Cadastrar Tecido
+                </a>
+
+                <a href="{% url 'lista_tecidos' %}" class="btn btn-secondary">
+                    📋 Listar Tecidos
+                </a>
+
+                <a href="{% url 'registrar_encomenda' %}" class="btn btn-success">
+                    📝 Registrar Encomenda
+                </a>
+
+                <a href="{% url 'listar_encomendas' %}" class="btn btn-info text-white">
+                    📦 Listar Encomendas
+                </a>
+            </div>
         </div>
     </div>
 
 </div>
+
 {% endblock %}
