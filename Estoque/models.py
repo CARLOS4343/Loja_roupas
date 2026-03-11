@@ -26,6 +26,7 @@ class Encomenda(models.Model):
     metragem = models.DecimalField(max_digits=8, decimal_places=2)
     price = models.DecimalField(max_digits=10, decimal_places=2)
     descricao = models.TextField(blank=True, null=True)
+    data_entrega = models.DateField(blank=True, null=True)
 
     # 🆕 STATUS
     status = models.CharField(

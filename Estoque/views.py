@@ -87,6 +87,7 @@ def registrar_encomenda(request):
         metragem_str = request.POST.get('metragem')
         descricao = request.POST.get('descricao')
         price_str = request.POST.get('price')
+        data_entrega_str = request.POST.get('data_entrega')
 
         try:
             tecido_obj = Tecido.objects.get(
@@ -130,6 +131,7 @@ def registrar_encomenda(request):
             metragem=metragem,
             descricao=descricao,
             price=price,
+            data_entrega_str=data_entrega_str
         )
 
         # Atualiza estoque com F() para evitar condições de corrida
@@ -154,6 +156,7 @@ def editar_encomenda(request, encomenda_id):
         encomenda.metragem = request.POST.get('metragem')
         encomenda.descricao = request.POST.get('descricao')
         encomenda.price = request.POST.get('price')
+        encomenda.data_entrega = request.POST.get('data_entrega')
         encomenda.save()
         return redirect('listar_encomendas')
     return render(request, 'estoque/editar_encomenda.html', {'encomenda': encomenda})
