@@ -62,7 +62,35 @@
             </div>
         </div>
     </div>
+    <!-- Encomenda proxima a data de entrega -->
+    <div class="row g-4">
+        {% for encomenda in encomendas_proximas %}
+        <div class="col-md-4">
+            <div class="card text-center shadow-sm border-0 h-100">
+                <div class="card-body">
+                    <h6 class="text-muted">Encomenda #{{ encomenda.id }}</h6>
+                    <p class="mb-1">Prazo de Entrega: {{ encomenda.data_entrega }}</p>
+                    <p class="mb-1">Status: {{ encomenda.status }}</p>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <!-- Encomendas Atrasadas -->
 
+    <div class="row g-4">
+        {% for encomenda in encomendas_atrasadas %}
+        <div class="col-md-4">
+            <div class="card text-center shadow-sm border-0 h-100">
+                <div class="card-body">
+                    <h6 class="text-muted">Encomenda #{{ encomenda.id }}</h6>
+                    <p class="mb-1">Prazo de Entrega: {{ encomenda.data_entrega }}</p>
+                    <p class="mb-1">Status: {{ encomenda.status }}</p>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
     <!-- Ações rápidas -->
     <div class="card shadow-sm border-0 mt-5">
         <div class="card-body">

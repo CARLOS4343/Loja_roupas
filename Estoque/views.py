@@ -1,3 +1,4 @@
+from datetime import timezone
 from django.shortcuts import redirect, render
 from django.db.models import Sum, DecimalField
 from django.db.models import F
@@ -206,4 +207,13 @@ def concluir_encomenda(request, encomenda_id):
     encomenda = Encomenda.objects.get(id=encomenda_id)
     encomenda.status = 'CONCLUIDA'
     encomenda.save()
+    return redirect('listar_encomendas')
+def prazo_encomenda(request, encomenda_id):
+    # Lógica para calcular e exibir as encomendas próximas do prazo de entrega
+    encomenda = Encomenda.objects.get(id=encomenda_id)
+    prazo_entrega = encomenda.data_entrega - timezone.now()
+    if prazo_entrega.days < 0:
+        messages.warning(request, "A encomenda está atrasada!")
+    elif prazo_entrega.days < 7:
+        messages.info(request, "A encomenda está próxima do prazo de entrega.")
     return redirect('listar_encomendas')
