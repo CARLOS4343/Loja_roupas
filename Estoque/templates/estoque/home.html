@@ -3,119 +3,106 @@
 {% block title %}Dashboard{% endblock %}
 
 {% block content %}
-
 <div class="container mt-4">
 
     <!-- Título -->
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h1 class=" text-center p-3 mt-4">📊 Dashboard</h1>
+    <div class="text-center mb-4">
+        <h1 class="p-3 mt-4">📊 Dashboard</h1>
     </div>
 
-    <!-- Cards de resumo -->
-    <div class="row g-4">
-
+    <!-- Cards de resumo principais -->
+    <div class="row g-4 mb-4">
         <!-- Tecidos -->
-        <div class="col-md-4">
+        <div class="col-md-3">
             <div class="card text-center shadow-sm border-0 h-100">
                 <div class="card-body">
                     <h6 class="text-muted">Tecidos</h6>
-                    <p class="display-5 fw-semibold">{{ total_tecidos }}</p>
-                    <a href="{% url 'lista_tecidos' %}" class="btn btn-outline-primary btn-sm">
-                        Ver Tecidos
-                    </a>
+                    <p class="display-6 fw-semibold">{{ total_tecidos }}</p>
+                    <a href="{% url 'lista_tecidos' %}" class="btn btn-outline-primary btn-sm">Ver Tecidos</a>
                 </div>
             </div>
         </div>
 
         <!-- Encomendas -->
-        <div class="col-md-4">
+        <div class="col-md-3">
             <div class="card text-center shadow-sm border-0 h-100">
                 <div class="card-body">
                     <h6 class="text-muted">Encomendas</h6>
-                    <p class="display-5 fw-semibold">{{ total_encomendas }}</p>
-                    <a href="{% url 'listar_encomendas' %}" class="btn btn-outline-success btn-sm">
-                        Ver Encomendas
-                    </a>
+                    <p class="display-6 fw-semibold">{{ total_encomendas }}</p>
+                    <a href="{% url 'listar_encomendas' %}" class="btn btn-outline-success btn-sm">Ver Encomendas</a>
                 </div>
             </div>
         </div>
 
         <!-- Valor em Estoque -->
-        <div class="col-md-4">
+        <div class="col-md-3">
             <div class="card text-center shadow-sm border-0 h-100">
                 <div class="card-body">
                     <h6 class="text-muted">Valor em Estoque</h6>
-                    <p class="display-6 fw-semibold text-success">
-                        R$ {{ valor_total_estoque }}
-                    </p>
+                    <p class="display-6 fw-semibold text-success">R$ {{ valor_total_estoque }}</p>
                 </div>
             </div>
         </div>
-            <div class="col-md-4">
+
+        <!-- Valor em Encomendas -->
+        <div class="col-md-3">
             <div class="card text-center shadow-sm border-0 h-100">
                 <div class="card-body">
                     <h6 class="text-muted">Valor em Encomendas</h6>
-                    <p class="display-6 fw-semibold text-success">
-                        R$ {{ valor_total_encomendas }}
-                    </p>
+                    <p class="display-6 fw-semibold text-success">R$ {{ valor_total_encomendas }}</p>
                 </div>
             </div>
         </div>
     </div>
-    <!-- Encomenda proxima a data de entrega -->
-    <div class="row g-4">
-        {% for encomenda in encomendas_proximas %}
-        <div class="col-md-4">
-            <div class="card text-center shadow-sm border-0 h-100">
-                <div class="card-body">
-                    <h6 class="text-muted">Encomenda #{{ encomenda.id }}</h6>
-                    <p class="mb-1">prazo_encomenda: {{ encomenda.data_entrega }}</p>
-                    <p class="mb-1">Status: {{ encomenda.status }}</p>
-                </div>
+
+ <!-- Cards de status de prazo -->
+<div class="row g-4 mb-4">
+
+    <!-- Próximas do prazo -->
+    <div class="col-md-4">
+        <div class="card shadow-sm border-0 text-center h-100">
+            <div class="card-body">
+                <h6 class="text-muted">Próximas do prazo</h6>
+                <h2 class="fw-bold text-primary">{{ count_proximas }}</h2>
+
+                <a href="{% url 'listar_encomendas' %}?filtro=proximas"
+                   class="btn btn-outline-primary btn-sm mt-2">
+                   Ver Encomendas
+                </a>
             </div>
         </div>
-        {% endfor %}
     </div>
-    <!-- Encomendas Atrasadas -->
 
-    <div class="row g-4">
-        {% for encomenda in encomendas_atrasadas %}
-        <div class="col-md-4">
-            <div class="card text-center shadow-sm border-0 h-100">
-                <div class="card-body">
-                    <h6 class="text-muted">Encomenda #{{ encomenda.id }}</h6>
-                    <p class="mb-1">prazo_encomenda: {{ encomenda.data_entrega }}</p>
-                    <p class="mb-1">Status: {{ encomenda.status }}</p>
-                </div>
-            </div>
-        </div>
-        {% endfor %}
-    </div>
-    <!-- Ações rápidas -->
-    <div class="card shadow-sm border-0 mt-5">
-        <div class="card-body">
-            <h5 class="mb-3">⚡ Ações rápidas</h5>
+    <!-- Atrasadas -->
+    <div class="col-md-4">
+        <div class="card shadow-sm border-0 text-center h-100">
+            <div class="card-body">
+                <h6 class="text-muted">Atrasadas</h6>
+                <h2 class="fw-bold text-danger">{{ count_atrasadas }}</h2>
 
-            <div class="d-flex flex-wrap gap-2">
-                <a href="{% url 'cadastro_tecido' %}" class="btn btn-primary">
-                    ➕ Cadastrar Tecido
-                </a>
-
-                <a href="{% url 'lista_tecidos' %}" class="btn btn-secondary">
-                    📋 Listar Tecidos
-                </a>
-
-                <a href="{% url 'registrar_encomenda' %}" class="btn btn-success">
-                    📝 Registrar Encomenda
-                </a>
-
-                <a href="{% url 'listar_encomendas' %}" class="btn btn-info text-white">
-                    📦 Listar Encomendas
+                <a href="{% url 'listar_encomendas' %}?filtro=atrasadas"
+                   class="btn btn-outline-danger btn-sm mt-2">
+                   Ver Encomendas
                 </a>
             </div>
         </div>
     </div>
 
 </div>
+    <!-- Ações rápidas -->
+    <div class="card shadow-sm border-0 mt-5">
+        <div class="card-body">
+            <h5 class="mb-3">⚡ Ações rápidas</h5>
+            <div class="d-flex flex-wrap gap-2">
+                <a href="{% url 'cadastro_tecido' %}" class="btn btn-primary">➕ Cadastrar Tecido</a>
+                <a href="{% url 'lista_tecidos' %}" class="btn btn-secondary">📋 Listar Tecidos</a>
+                <a href="{% url 'registrar_encomenda' %}" class="btn btn-success">📝 Registrar Encomenda</a>
+                <a href="{% url 'listar_encomendas' %}" class="btn btn-info text-white">📦 Listar Encomendas</a>
+            </div>
+        </div>
+    </div>
+
+</div>
+
 
 {% endblock %}

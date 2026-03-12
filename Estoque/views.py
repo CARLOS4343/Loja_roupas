@@ -1,33 +1,59 @@
-from datetime import timezone
+from datetime import datetime, timedelta
 from django.shortcuts import redirect, render
 from django.db.models import Sum, DecimalField
 from django.db.models import F
 from django.contrib import messages
 from decimal import Decimal, InvalidOperation
 from Estoque.models import Encomenda, Tecido
+from django.utils import timezone   # ✅ certo
+
 
 
 # Create your views here.
 def home(request):
+    hoje = timezone.now().date()
+    limite = hoje + timedelta(days=7)
+
     total_tecidos = Tecido.objects.count()
-    total_encomendas = Encomenda.objects.filter(status='ABERTA').count()
+
+    total_encomendas = Encomenda.objects.filter(
+        status='ABERTA'
+    ).count()
+
     valor_total_estoque = Tecido.objects.aggregate(
         total_valor=Sum(F('metragem') * F('preco'), output_field=DecimalField())
     )['total_valor'] or 0
+
     valor_total_encomendas = Encomenda.objects.filter(
         status='ABERTA'
     ).aggregate(
         total_valor=Sum('price', output_field=DecimalField())
     )['total_valor'] or 0
 
-    context={
+    #  Encomendas atrasadas
+    encomendas_atrasadas = Encomenda.objects.filter(
+        data_entrega__isnull=False,
+        data_entrega__lt=hoje,
+        status='ABERTA'
+    )
+
+    #  Encomendas próximas do prazo
+    encomendas_proximas = Encomenda.objects.filter(
+        data_entrega__isnull=False,
+        data_entrega__range=(hoje, limite),
+        status='ABERTA'
+    )
+
+    context = {
         'total_tecidos': total_tecidos,
         'total_encomendas': total_encomendas,
         'valor_total_estoque': valor_total_estoque,
         'valor_total_encomendas': valor_total_encomendas,
+        'count_proximas': encomendas_proximas.count(),
+        'count_atrasadas': encomendas_atrasadas.count(),
     }
-    return render(request, 'estoque/home.html' , context)
 
+    return render(request, 'estoque/home.html', context)
 def cadastro_tecido(request):
     if request.method == 'POST':
         
@@ -123,7 +149,16 @@ def registrar_encomenda(request):
             )
             return redirect('registrar_encomenda')
 
-        # Cria a encomenda
+        # Converte a data de entrega (se enviada)
+        data_entrega = None
+        if data_entrega_str:
+            try:
+                data_entrega = datetime.strptime(data_entrega_str, "%Y-%m-%d").date()
+            except ValueError:
+                messages.error(request, "Data de entrega inválida.")
+                return redirect('registrar_encomenda')
+
+        # Cria a encomenda com o campo correto
         Encomenda.objects.create(
             nomeCliente=nome_cliente,
             modelo=modelo,
@@ -132,7 +167,7 @@ def registrar_encomenda(request):
             metragem=metragem,
             descricao=descricao,
             price=price,
-            data_entrega_str=data_entrega_str
+            data_entrega=data_entrega  # ✅ campo correto
         )
 
         # Atualiza estoque com F() para evitar condições de corrida
@@ -144,8 +179,29 @@ def registrar_encomenda(request):
 
 
 def listar_encomendas(request):
+
+    hoje = timezone.now().date()
+    limite = hoje + timedelta(days=7)
+
+    filtro = request.GET.get('filtro')
+
     encomendas = Encomenda.objects.all()
-    return render(request, 'estoque/listar_encomendas.html', {'encomendas': encomendas})
+
+    if filtro == 'atrasadas':
+        encomendas = encomendas.filter(
+            data_entrega__lt=hoje,
+            status='ABERTA'
+        )
+
+    elif filtro == 'proximas':
+        encomendas = encomendas.filter(
+            data_entrega__range=(hoje, limite),
+            status='ABERTA'
+        )
+
+    return render(request, 'estoque/listar_encomendas.html', {
+        'encomendas': encomendas
+    })
 
 def editar_encomenda(request, encomenda_id):
     encomenda = Encomenda.objects.get(id=encomenda_id)

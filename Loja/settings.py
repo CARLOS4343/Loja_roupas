@@ -25,7 +25,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-vuuj(czw66o8tdj9x-4oe$i%kdr$(^wm0%2+5qi%xwjbu^bf(3'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = [ 
     'loja-roupas-pgzf.onrender.com',
@@ -85,14 +85,21 @@ WSGI_APPLICATION = 'Loja.wsgi.application'
 
 
 import dj_database_url
+from dotenv import load_dotenv
 import os
 
+load_dotenv()  
 DATABASES = {
     'default': dj_database_url.config(
-        default=os.getenv('DATABASE_URL')
+        default=os.getenv('DATABASE_URL'),
+        conn_max_age=600,  # mantém conexões abertas por até 10 minutos
+        ssl_require=True   # força SSL, necessário no Render
     )
 }
-
+# Opcional: aumentar timeout
+DATABASES['default']['OPTIONS'] = {
+    'connect_timeout': 20,  # segundos
+}
 
 
 # Password validation

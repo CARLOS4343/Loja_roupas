@@ -10,7 +10,7 @@ class Tecido(models.Model):
         unique_together = ('nome', 'cor')  # garante que a combinação seja única
 
     preco = models.DecimalField(max_digits=10, decimal_places=2)
-    cor = models.CharField(max_length=50,unique=True)
+    
     
 class Encomenda(models.Model):
 

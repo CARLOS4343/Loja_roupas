@@ -111,6 +111,13 @@
                                 required
                             >
                         </div>
+                        <td>
+                        {% if encomenda.data_entrega %}
+                            {{ encomenda.data_entrega|date:"d/m/Y" }}
+                        {% else %}
+                            <span class="text-muted">Sem data</span>
+                        {% endif %}
+                        </td>
 
                         <div class="d-flex gap-2">
                             <button type="submit" class="btn btn-success">

@@ -84,6 +84,14 @@
                           rows="4"
                           placeholder="Detalhes, observações ou ajustes da encomenda...">{{ encomenda.descricao }}</textarea>
             </div>
+            <div class="mb-3">
+                <label class="form-label">Prazo de Entrega</label>
+                <input type="date"
+                       name="prazoEntrega"
+                       class="form-control"
+                       value="{{ encomenda.prazoEntrega|date:'Y-m-d' }}"
+                       required>
+            </div>
 
             <!-- Ações -->
             <div class="d-flex justify-content-between">

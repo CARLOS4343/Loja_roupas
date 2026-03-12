@@ -42,13 +42,17 @@
                         <span class="text-muted fst-italic">Sem descrição</span>
                     {% endif %}
                 </td>
-                <td>
-                {% if encomenda.status == 'ABERTA' %}
-                    <span class="badge bg-warning text-dark">Aberta</span>
-                {% else %}
-                    <span class="badge bg-success">Concluída</span>
-                {% endif %}
-            </td>
+               <td>
+    {{ encomenda.data_entrega|date:"d/m/Y" }}
+</td>
+
+<td>
+{% if encomenda.status == 'ABERTA' %}
+    <span class="badge bg-warning text-dark">Aberta</span>
+{% else %}
+    <span class="badge bg-success">Concluída</span>
+{% endif %}
+</td>
                         {% if encomenda.status == 'ABERTA' %}
             <a href="{% url 'concluir_encomenda' encomenda.id %}"
             class="btn btn-outline-success btn-sm"
